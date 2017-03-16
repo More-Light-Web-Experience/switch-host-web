@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Web版本host管理器</title>
+    <link rel="stylesheet" href="css/style.default.css" type="text/css"/>
+    <script type="text/javascript" src="js/jquery-1.7.min.js"></script>
+    <script src="js/vue.js"></script>
+    <script type="text/javascript" src="js/common.js"></script>
+</head>
+
+<body class="withvernav">
+<div class="bodywrapper" id="HostDiv">
+    <div class="topheader">
+        <div class="left">
+            <h1 class="logo"><i>Switch.<span>Host</span></i></h1>
+            <span class="slogan">Switch Host PHP web code .</span>
+            <br clear="all"/>
+        </div>
+    </div>
+
+    <div class="vernav2 iconmenu" id="menudiv">
+        <ul id="menu">
+            <li v-for="(menu,index) in menus" :class="{current:menu.selected}">
+                <a href="javascript:;" :data-menu="menu.alias" @click="findHost(menu.id,index)">{{menu.alias}}</a>
+            </li>
+        </ul>
+        <a class="togglemenu"></a>
+        <br/><br/>
+    </div>
+
+    <div class="centercontent">
+        <div class="pageheader">
+            <h1 class="pagetitle">Hosts</h1>
+            <span class="pagedesc">修改host文件</span>
+            <ul class="hornav">
+                <li class="current"><a href="#basicform">配置</a></li>
+            </ul>
+        </div>
+
+        <div id="contentwrapper" class="contentwrapper">
+            <div id="basicform" class="subcontent">
+                <div class="contenttitle2">
+                    <h3>修改Host文件</h3>
+                </div>
+                <form class="stdform" action="" method="post">
+                    <p>
+                        <label>新增host配置</label>
+                        <span class="field">
+                            <input type="text" name="keyword" id="hostname" v-model="addAlias" placeholder="输入名称英文和数字"/>
+                        </span>
+                    </p>
+                    <p class="stdformbutton">
+                        <button class="submit radius2" type="button" id="addHost" @click="addHost()">添加配置</button>
+                    </p>
+                </form>
+                <hr>
+                <form class="stdform" action="/ajaxHost.php" method="post">
+                    <div id="HostContent">
+                        <label>更新host文件</label>
+                        <span class="field">
+                            <textarea cols="80" rows="10" id="host-content" :disabled="isdisabled" v-model="content" class="longinput"></textarea>
+                        </span>
+                    </div>
+                    <p class="stdformbutton">
+                        <input type="hidden" value="3" name="cate"/>
+                        <input type="hidden" value="" name="hostname"/>
+                        <button class="submit radius2" type="button" id="updateHost" @click="saveHost(content,alias)">更新内容</button>
+                        <button class="submit radius2" type="button" id="useHost" @click="useHost(alias)">应用</button>
+                        <button type="button" class="reset radius2" @click="delHost(alias)" >删除</button>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
+
+
+
